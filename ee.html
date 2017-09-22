@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ee</title>
+</head>
+<body>
+    <script>
+        class EventEmitter {
+            constructor(){
+                this.handerAll = {};
+            }
+            on(eventName, hander){
+                this.handerAll[eventName] || (this.handerAll[eventName] = []); 
+                this.handerAll[eventName].push(hander) 
+                return this;
+            }
+            emit(eventName, ...parms){
+                const thisEmitter = this.handerAll[eventName];
+                if (!thisEmitter) {
+                    console.log(`找不到${eventName}`)
+                    return false;
+                } 
+                thisEmitter.forEach((Emit)=>{
+                    Emit(...parms)
+                })
+                return this;
+            }
+            off(eventName, hander){
+                let thisEmitter = this.handerAll[eventName];
+                
+
+                if (thisEmitter){
+                    delete this.handerAll[eventName];
+                }
+                return this;
+            }
+        }
+        new EventEmitter().on('hi', (name, age)=>{ console.log('h1', name, age) }).emit('hi', '111', '333')
+        new EventEmitter().on('h34', (name, age)=>{ console.log('h2', name, age) }).emit('hi', '222')
+    </script>
+</body>
+</html>
